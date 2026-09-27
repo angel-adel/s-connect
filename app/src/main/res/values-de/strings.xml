@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">S-Connect</string>
+    <string name="auth_title">S-Connect</string>
+    <string name="auth_username">Benutzername</string>
+    <string name="auth_username_hint">Von deinem Smart Social Konto</string>
+    <string name="auth_password">Passwort</string>
+    <string name="auth_password_hint">Gleich wie Smart Social Konto</string>
+    <string name="auth_login">Anmelden</string>
+    <string name="auth_register">Registrieren</string>
+    <string name="auth_forgot_password">📧 Passwort vergessen?</string>
+    <string name="auth_error_not_connected">Autorisierung noch nicht verbunden</string>
+    <string name="auth_error_no_email_client">E-Mail-Client nicht gefunden</string>
+</resources>

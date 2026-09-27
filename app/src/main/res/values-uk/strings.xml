@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">S-Connect</string>
+    <string name="auth_title">S-Connect</string>
+    <string name="auth_username">Ім\'я користувача</string>
+    <string name="auth_username_hint">Від акаунта Smart Social</string>
+    <string name="auth_password">Пароль</string>
+    <string name="auth_password_hint">Збігається з акаунтом Smart Social</string>
+    <string name="auth_login">Увійти</string>
+    <string name="auth_register">Зареєструватися</string>
+    <string name="auth_forgot_password">📧 Забули пароль?</string>
+    <string name="auth_error_not_connected">Авторизація поки не підключена</string>
+    <string name="auth_error_no_email_client">Поштовий клієнт не знайдено</string>
+    <string name="settings_title">Налаштування</string>
+    <string name="settings_theme">Тема</string>
+    <string name="settings_language">Мова</string>
+    <string name="settings_theme_light">Світла</string>
+    <string name="settings_theme_dark">Темна</string>
+    <string name="settings_theme_system">Системна</string>
+</resources>

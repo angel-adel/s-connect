@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">S-Connect</string>
+    <string name="auth_title">S-Connect</string>
+    <string name="auth_username">Username</string>
+    <string name="auth_username_hint">From your Smart Social account</string>
+    <string name="auth_password">Password</string>
+    <string name="auth_password_hint">Same as Smart Social account</string>
+    <string name="auth_login">Login</string>
+    <string name="auth_register">Register</string>
+    <string name="auth_forgot_password">📧 Forgot password?</string>
+    <string name="auth_error_not_connected">Authorization not connected yet</string>
+    <string name="auth_error_no_email_client">Email client not found</string>
+    <string name="settings_title">Settings</string>
+    <string name="settings_theme">Theme</string>
+    <string name="settings_language">Language</string>
+    <string name="settings_theme_light">Light</string>
+    <string name="settings_theme_dark">Dark</string>
+    <string name="settings_theme_system">System</string>
+</resources>
