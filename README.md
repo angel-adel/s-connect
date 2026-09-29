@@ -1,93 +1,72 @@
-# 📱 S-Connect
+# S-Connect v0.2.0 — Realtime
 
-<div align="center">
+🎉 Первый по-настоящему живой релиз!
 
-**Мессенджер экосистемы SmartSocial**
+## Что нового
 
-[![Kotlin](https://img.shields.io/badge/Kotlin-2.2-purple?logo=kotlin)](https://kotlinlang.org/)
-[![Compose](https://img.shields.io/badge/Jetpack%20Compose-2026-blue?logo=jetpackcompose)](https://developer.android.com/jetpack/compose)
-[![Supabase](https://img.shields.io/badge/Supabase-Backend-green?logo=supabase)](https://supabase.com/)
-[![Android](https://img.shields.io/badge/Android-7.0%2B-brightgreen?logo=android)](https://developer.android.com/)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+### ⚡ Realtime в чате
+- Сообщения приходят **мгновенно**
+- Без перезагрузки страницы
+- WebSocket-соединение через Supabase Realtime
 
-**Дочерний проект [SmartSocial](https://github.com/angel-adel/smartsocial)** — тихой соцсети без рекламы и трекеров.
+### 📋 Realtime в списке чатов
+- Счётчик непрочитанных обновляется автоматически
+- Последнее сообщение меняется в реальном времени
+- Новые чаты появляются без обновления
 
-</div>
+### 🛠 Технические улучшения
+- Заменён `ktor-client-android` на `ktor-client-okhttp` (поддержка WebSocket)
+- Добавлен `ktor-client-websockets`
+- Debounce 500мс для оптимизации REST-запросов
+- Стабильное WebSocket-соединение с heartbeat
 
----
+### 🐛 Исправления
+- Устранены таймауты REST API
+- Чистые логи — ни одной ошибки
+- Стабильная работа на реальных устройствах
 
-## 🎯 О проекте
+## Что уже работает
 
-**S-Connect** — это Android-мессенджер, который станет частью экосистемы SmartSocial. 
+- ✅ Авторизация через Supabase Auth
+- ✅ Общий аккаунт с Smart Social
+- ✅ Список чатов
+- ✅ Окно чата
+- ✅ Отправка сообщений
+- ✅ Редактирование ✏️
+- ✅ Удаление 🗑️
+- ✅ Галочки прочтения ✓✓
+- ✅ Realtime — мгновенные сообщения
+- ✅ Синхронизация с веб-версией
+- ✅ 5 языков: 🇷🇺 🇬🇧 🇺🇦 🇪🇸 🇩🇪
+- ✅ Тёмная и светлая тема
 
-**Главная идея:** один аккаунт — две платформы. Пользователи SmartSocial автоматически получают доступ к S-Connect.
+## Требования
 
-### Что будет внутри
+- Android 7.0+ (API 24)
+- ~15 МБ
+- Интернет
 
-- 💬 Личные и групповые чаты
-- 🎤 Голосовые сообщения
-- 📸 Статусы (исчезают через 24 часа)
-- 🟢 Онлайн-статусы
-- 🔔 Push-уведомления
-- 🔄 Синхронизация с SmartSocial
-- 🌍 5 языков: 🇷🇺 🇬🇧 🇺🇦 🇪🇸 🇩🇪
+## Что дальше
 
----
+- 🔜 Медиа (фото, видео, файлы)
+- 🔜 Голосовые сообщения
+- 🔜 Push-уведомления
+- 🔜 Экран настроек
+- 🔜 Статусы
 
-## 🛠 Технологии
+## Установка
 
-| Слой | Технология |
-|------|------------|
-| **Язык** | Kotlin |
-| **UI** | Jetpack Compose |
-| **Архитектура** | MVVM (планируется) |
-| **Backend** | Supabase (Auth, Postgrest, Realtime) |
-| **Сборка** | Gradle Kotlin DSL |
-| **Минимум** | Android 7.0 (API 24) |
+1. Скачать APK из раздела [Releases](https://github.com/angel-adel/s-connect/releases)
+2. Разрешить установку из неизвестных источников
+3. Установить
+4. Войти под своим аккаунтом Smart Social
 
----
+## Автор
 
-## 📸 Скриншоты
+**Adel** ([@angel-adel](https://github.com/angel-adel))
 
-<div align="center">
-
-| Экран авторизации |
-|:-----------------:|
-| _Скриншот появится после сборки_ |
-
-</div>
-
----
-
-## 🚀 Статус разработки
-
-- [x] Создан проект Android Studio
-- [x] Настроен Gradle
-- [x] Экран авторизации
-- [x] 5 языков (RU, EN, UK, ES, DE)
-- [x] Цвета SmartSocial
-- [x] Git-репозиторий
-- [ ] Подключение Supabase Auth
-- [ ] Список чатов
-- [ ] Окно чата
-- [ ] Голосовые сообщения
-- [ ] Статусы
-- [ ] Синхронизация с SmartSocial
-- [ ] Релиз в Google Play
+_Козёл-тимлид одобряет_ 🐏
 
 ---
 
-## 📦 Установка
-
-### Для разработчиков
-
-```bash
-# Клонировать репозиторий
-git clone https://github.com/angel-adel/s-connect.git
-cd s-connect
-
-# Собрать APK
-./gradlew assembleDebug
-
-# Установить на устройство
-adb install app/build/outputs/apk/debug/app-debug.apk
+**Полный список изменений:** [CHANGELOG.md](CHANGELOG.md)
