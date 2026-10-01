@@ -1,5 +1,10 @@
 package com.adel.s_connect
 
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
@@ -10,9 +15,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -21,14 +28,43 @@ fun ProfileScreen(
     onEditClick: () -> Unit,
     onSettingsClick: () -> Unit
 ) {
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+
     var profile by remember { mutableStateOf<UserProfile?>(null) }
     var isLoading by remember { mutableStateOf(true) }
+    var isUploading by remember { mutableStateOf(false) }
+    var uploadError by remember { mutableStateOf<String?>(null) }
     var showMenu by remember { mutableStateOf(false) }
 
-    LaunchedEffect(Unit) {
+    // Загрузка профиля
+    suspend fun reloadProfile() {
         val result = ChatRepository.loadMyProfile()
-        isLoading = false
         if (result.isSuccess) profile = result.getOrNull()
+    }
+
+    LaunchedEffect(Unit) {
+        reloadProfile()
+        isLoading = false
+    }
+
+    // Picker для выбора картинки
+    val pickAvatar = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickVisualMedia()
+    ) { uri: Uri? ->
+        if (uri != null) {
+            scope.launch {
+                isUploading = true
+                uploadError = null
+                val result = ProfileRepository.uploadAvatar(context, uri)
+                isUploading = false
+                if (result.isSuccess) {
+                    reloadProfile()
+                } else {
+                    uploadError = result.exceptionOrNull()?.message ?: "Ошибка загрузки"
+                }
+            }
+        }
     }
 
     Scaffold(
@@ -74,25 +110,60 @@ fun ProfileScreen(
                     .padding(24.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                // Аватар
-                if (!profile?.avatar_url.isNullOrEmpty()) {
-                    AsyncImage(
-                        model = profile!!.avatar_url,
-                        contentDescription = "Avatar",
-                        modifier = Modifier.size(120.dp).clip(CircleShape),
-                        contentScale = ContentScale.Crop
-                    )
-                } else {
+                // ---------- Аватар с кнопкой 📷 ----------
+                Box(
+                    modifier = Modifier.size(120.dp),
+                    contentAlignment = Alignment.BottomEnd
+                ) {
+                    // Сам аватар
+                    if (!profile?.avatar_url.isNullOrEmpty()) {
+                        AsyncImage(
+                            model = profile!!.avatar_url,
+                            contentDescription = "Avatar",
+                            modifier = Modifier
+                                .size(120.dp)
+                                .clip(CircleShape),
+                            contentScale = ContentScale.Crop
+                        )
+                    } else {
+                        Surface(
+                            modifier = Modifier.size(120.dp).clip(CircleShape),
+                            color = MaterialTheme.colorScheme.primaryContainer
+                        ) {
+                            Box(contentAlignment = Alignment.Center) {
+                                Text(
+                                    text = profile?.username?.firstOrNull()?.uppercase() ?: "?",
+                                    style = MaterialTheme.typography.displayMedium,
+                                    color = MaterialTheme.colorScheme.onPrimaryContainer
+                                )
+                            }
+                        }
+                    }
+
+                    // Кнопка 📷
                     Surface(
-                        modifier = Modifier.size(120.dp).clip(CircleShape),
-                        color = MaterialTheme.colorScheme.primaryContainer
+                        modifier = Modifier
+                            .size(36.dp)
+                            .clip(CircleShape)
+                            .clickable(enabled = !isUploading) {
+                                pickAvatar.launch(
+                                    PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                                )
+                            },
+                        color = MaterialTheme.colorScheme.primary,
+                        border = androidx.compose.foundation.BorderStroke(
+                            2.dp, MaterialTheme.colorScheme.surface
+                        )
                     ) {
                         Box(contentAlignment = Alignment.Center) {
-                            Text(
-                                text = profile?.username?.firstOrNull()?.uppercase() ?: "?",
-                                style = MaterialTheme.typography.displayMedium,
-                                color = MaterialTheme.colorScheme.onPrimaryContainer
-                            )
+                            if (isUploading) {
+                                CircularProgressIndicator(
+                                    modifier = Modifier.size(20.dp),
+                                    color = MaterialTheme.colorScheme.onPrimary
+                                )
+                            } else {
+                                Text("📷", style = MaterialTheme.typography.titleMedium)
+                            }
                         }
                     }
                 }
@@ -108,8 +179,18 @@ fun ProfileScreen(
                 Spacer(modifier = Modifier.height(8.dp))
 
                 val bioText = profile?.bio
-                if (bioText != null) {
-                    Text(bioText)   // ✅ Работает — val не делегат
+                if (!bioText.isNullOrBlank()) {
+                    Text(bioText)
+                }
+
+                // Ошибка загрузки
+                uploadError?.let {
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text(
+                        text = "Ошибка: $it",
+                        color = MaterialTheme.colorScheme.error,
+                        style = MaterialTheme.typography.bodyMedium
+                    )
                 }
 
                 Spacer(modifier = Modifier.height(32.dp))

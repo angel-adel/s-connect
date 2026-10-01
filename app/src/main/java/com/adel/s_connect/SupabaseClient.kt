@@ -5,6 +5,7 @@ import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.gotrue.Auth
 import io.github.jan.supabase.postgrest.Postgrest
 import io.github.jan.supabase.realtime.Realtime
+import io.github.jan.supabase.storage.Storage
 
 object Supabase {
     val client: SupabaseClient by lazy {
@@ -15,7 +16,7 @@ object Supabase {
             install(Auth)
             install(Postgrest)
             install(Realtime)
-            // Увеличиваем таймаут
+            install(Storage)          // ← ДОБАВИЛИ
             httpEngine = io.ktor.client.engine.okhttp.OkHttp.create {
                 config {
                     connectTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
