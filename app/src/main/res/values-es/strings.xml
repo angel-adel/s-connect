@@ -10,4 +10,12 @@
     <string name="auth_forgot_password">📧 ¿Olvidaste tu contraseña?</string>
     <string name="auth_error_not_connected">Autorización aún no conectada</string>
     <string name="auth_error_no_email_client">Cliente de correo no encontrado</string>
+
+    <!-- Настройки -->
+    <string name="settings_title">Ajustes</string>
+    <string name="settings_theme">Tema</string>
+    <string name="settings_language">Idioma</string>
+    <string name="settings_theme_light">Claro</string>
+    <string name="settings_theme_dark">Oscuro</string>
+    <string name="settings_theme_system">Sistema</string>
 </resources>

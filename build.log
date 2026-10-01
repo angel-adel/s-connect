@@ -1,0 +1,46 @@
+Starting a Gradle Daemon, 2 stopped Daemons could not be reused, use --status for details
+Reusing configuration cache.
+> Task :app:generateDebugAssets UP-TO-DATE
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :app:clean
+> Task :app:mergeDebugNativeDebugMetadata NO-SOURCE
+> Task :app:generateDebugResources
+> Task :app:generateDebugBuildConfig
+> Task :app:javaPreCompileDebug
+> Task :app:processDebugNavigationResources
+> Task :app:mergeDebugAssets
+> Task :app:packageDebugResources
+> Task :app:compressDebugAssets
+> Task :app:desugarDebugFileDependencies
+> Task :app:parseDebugLocalResources
+> Task :app:checkDebugAarMetadata
+> Task :app:mapDebugSourceSetPaths
+> Task :app:compileDebugNavigationResources
+> Task :app:generateDebugRFile
+> Task :app:checkDebugDuplicateClasses
+> Task :app:generateDebugGlobalSynthetics
+> Task :app:mergeDebugResources
+> Task :app:compileDebugKotlin
+> Task :app:mergeLibDexDebug
+> Task :app:createDebugCompatibleScreenManifests
+> Task :app:extractDeepLinksDebug
+> Task :app:mergeExtDexDebug
+> Task :app:processDebugMainManifest
+> Task :app:processDebugManifest
+> Task :app:processDebugManifestForPackage
+
+> Task :app:compileDebugKotlin
+e: file:///D:/Projects/SConnect/app/src/main/java/com/adel/s_connect/SettingsScreen.kt:46:13 Unresolved reference 'ThemeOption'.
+e: file:///D:/Projects/SConnect/app/src/main/java/com/adel/s_connect/SettingsScreen.kt:47:13 Unresolved reference 'ThemeOption'.
+e: file:///D:/Projects/SConnect/app/src/main/java/com/adel/s_connect/SettingsScreen.kt:48:13 Unresolved reference 'ThemeOption'.
+e: file:///D:/Projects/SConnect/app/src/main/java/com/adel/s_connect/SettingsScreen.kt:58:13 Unresolved reference 'LanguageOption'.
+e: file:///D:/Projects/SConnect/app/src/main/java/com/adel/s_connect/SettingsScreen.kt:63:13 Unresolved reference 'LanguageOption'.
+e: file:///D:/Projects/SConnect/app/src/main/java/com/adel/s_connect/SettingsScreen.kt:68:13 Unresolved reference 'LanguageOption'.
+e: file:///D:/Projects/SConnect/app/src/main/java/com/adel/s_connect/SettingsScreen.kt:73:13 Unresolved reference 'LanguageOption'.
+e: file:///D:/Projects/SConnect/app/src/main/java/com/adel/s_connect/SettingsScreen.kt:78:13 Unresolved reference 'LanguageOption'.
+
+> Task :app:compileDebugKotlin FAILED
+> Task :app:processDebugResources
+Terminate batch job (Y/N)? 
+^C
