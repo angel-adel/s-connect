@@ -6,6 +6,9 @@ import io.github.jan.supabase.gotrue.Auth
 import io.github.jan.supabase.postgrest.Postgrest
 import io.github.jan.supabase.realtime.Realtime
 import io.github.jan.supabase.storage.Storage
+import io.ktor.client.engine.okhttp.OkHttp
+import io.ktor.client.plugins.HttpTimeout
+import java.util.concurrent.TimeUnit
 
 object Supabase {
     val client: SupabaseClient by lazy {
@@ -16,12 +19,14 @@ object Supabase {
             install(Auth)
             install(Postgrest)
             install(Realtime)
-            install(Storage)          // ← ДОБАВИЛИ
-            httpEngine = io.ktor.client.engine.okhttp.OkHttp.create {
+            install(Storage)
+
+            // Ktor-плагин HttpTimeout ставится в httpEngine, а не в корневой DSL
+            httpEngine = OkHttp.create {
                 config {
-                    connectTimeout(60, java.util.concurrent.TimeUnit.SECONDS)
-                    readTimeout(60, java.util.concurrent.TimeUnit.SECONDS)
-                    writeTimeout(60, java.util.concurrent.TimeUnit.SECONDS)
+                    connectTimeout(60, TimeUnit.SECONDS)
+                    readTimeout(60, TimeUnit.SECONDS)
+                    writeTimeout(60, TimeUnit.SECONDS)
                 }
             }
         }

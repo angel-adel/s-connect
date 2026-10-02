@@ -96,9 +96,7 @@ class MainActivity : ComponentActivity() {
                                     onBack = { currentScreen = SCREEN_CHATS },
                                     onEditClick = { currentScreen = SCREEN_EDIT_PROFILE },
                                     onSettingsClick = { currentScreen = SCREEN_SETTINGS },
-                                    onStoryUploaded = {
-                                        // Заглушка: лента сторис обновится позже
-                                    }
+                                    onStoryUploaded = { }
                                 )
 
                                 SCREEN_EDIT_PROFILE -> EditProfileScreen(
@@ -125,7 +123,9 @@ class MainActivity : ComponentActivity() {
                                             currentScreen = SCREEN_CHATS
                                             selectedUser = null
                                         }
-                                    }
+                                    },
+                                    onStoryClick = { /* заглушка, Часть 4 */ },
+                                    onAddStoryClick = { currentScreen = SCREEN_PROFILE }
                                 )
                             }
                         }

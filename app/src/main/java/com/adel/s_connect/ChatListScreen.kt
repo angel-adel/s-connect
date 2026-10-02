@@ -30,9 +30,13 @@ import kotlinx.coroutines.launch
 fun ChatListScreen(
     onChatClick: (UserProfile) -> Unit,
     onProfileClick: () -> Unit,
-    onLogout: () -> Unit
+    onLogout: () -> Unit,
+    onStoryClick: (UserStories) -> Unit = {},
+    onAddStoryClick: () -> Unit = {}
 ) {
     var chats by remember { mutableStateOf<List<ChatPreview>>(emptyList()) }
+    var stories by remember { mutableStateOf<List<UserStories>>(emptyList()) }
+    var myUserId by remember { mutableStateOf<String?>(null) }
     var isLoading by remember { mutableStateOf(true) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
 
@@ -43,12 +47,18 @@ fun ChatListScreen(
     var isSearching by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
 
-    // Загрузка чатов
+    // Загрузка чатов и сторис
     LaunchedEffect(Unit) {
-        val result = ChatRepository.loadChats()
+        myUserId = AuthRepository.currentUserId()
+
+        val chatsResult = ChatRepository.loadChats()
+        if (chatsResult.isSuccess) chats = chatsResult.getOrNull() ?: emptyList()
+        else errorMessage = chatsResult.exceptionOrNull()?.message ?: "Ошибка загрузки"
+
+        val storiesResult = StoryRepository.loadStoriesGrouped()
+        if (storiesResult.isSuccess) stories = storiesResult.getOrNull() ?: emptyList()
+
         isLoading = false
-        if (result.isSuccess) chats = result.getOrNull() ?: emptyList()
-        else errorMessage = result.exceptionOrNull()?.message ?: "Ошибка загрузки"
     }
 
     // Realtime
@@ -82,7 +92,7 @@ fun ChatListScreen(
             return@LaunchedEffect
         }
         isSearching = true
-        delay(300) // debounce
+        delay(300)
         val result = ChatRepository.searchUsers(searchQuery)
         isSearching = false
         if (result.isSuccess) globalResults = result.getOrNull() ?: emptyList()
@@ -168,7 +178,7 @@ fun ChatListScreen(
                     scope = scope
                 )
 
-                chats.isEmpty() -> Column(
+                chats.isEmpty() && stories.isEmpty() -> Column(
                     modifier = Modifier.align(Alignment.Center),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -182,6 +192,18 @@ fun ChatListScreen(
                 }
 
                 else -> LazyColumn(Modifier.fillMaxSize()) {
+                    if (stories.isNotEmpty() || myUserId != null) {
+                        item {
+                            StoriesRow(
+                                stories = stories,
+                                myUserId = myUserId,
+                                onStoryClick = onStoryClick,
+                                onAddStoryClick = onAddStoryClick
+                            )
+                            HorizontalDivider()
+                        }
+                    }
+
                     items(chats) { chat ->
                         ChatListItem(chat = chat, onClick = { onChatClick(chat.user) })
                         HorizontalDivider()
@@ -220,22 +242,16 @@ private fun SearchResults(
             }
 
         else -> LazyColumn(Modifier.fillMaxSize()) {
-            // Секция: мои чаты
             if (filteredChats.isNotEmpty()) {
-                item {
-                    SectionHeader("💬 Мои чаты")
-                }
+                item { SectionHeader("💬 Мои чаты") }
                 items(filteredChats) { chat ->
                     ChatListItem(chat = chat, onClick = { onChatClick(chat.user) })
                     HorizontalDivider()
                 }
             }
 
-            // Секция: глобальный поиск
             if (globalResults.isNotEmpty()) {
-                item {
-                    SectionHeader("🌍 Найдены пользователи")
-                }
+                item { SectionHeader("🌍 Найдены пользователи") }
                 items(globalResults) { user ->
                     UserSearchItem(user = user, onClick = { onChatClick(user) })
                     HorizontalDivider()
