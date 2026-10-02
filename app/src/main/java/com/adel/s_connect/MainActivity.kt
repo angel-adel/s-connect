@@ -55,6 +55,7 @@ class MainActivity : ComponentActivity() {
             var themeSetting by remember { mutableStateOf(SettingsManager.getTheme(context)) }
             var isLoggedIn by remember { mutableStateOf(AuthRepository.isLoggedIn()) }
             var selectedUser by remember { mutableStateOf<UserProfile?>(null) }
+            var selectedStories by remember { mutableStateOf<UserStories?>(null) }
             var currentScreen by remember { mutableStateOf(SCREEN_CHATS) }
 
             val darkTheme = when (themeSetting) {
@@ -87,6 +88,13 @@ class MainActivity : ComponentActivity() {
                             ChatWindowScreen(
                                 otherUser = selectedUser!!,
                                 onBack = { selectedUser = null }
+                            )
+                        }
+
+                        selectedStories != null -> {
+                            StoryViewerScreen(
+                                userStories = selectedStories!!,
+                                onClose = { selectedStories = null }
                             )
                         }
 
@@ -124,7 +132,7 @@ class MainActivity : ComponentActivity() {
                                             selectedUser = null
                                         }
                                     },
-                                    onStoryClick = { /* заглушка, Часть 4 */ },
+                                    onStoryClick = { userStories -> selectedStories = userStories },
                                     onAddStoryClick = { currentScreen = SCREEN_PROFILE }
                                 )
                             }
@@ -148,6 +156,7 @@ fun AuthScreen(
     var password by remember { mutableStateOf("") }
     var errorMessage by remember { mutableStateOf<String?>(null) }
     var isLoading by remember { mutableStateOf(false) }
+
 
     Column(
         modifier = Modifier
