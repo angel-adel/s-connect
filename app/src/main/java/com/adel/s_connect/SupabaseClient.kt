@@ -19,9 +19,9 @@ object Supabase {
             install(Storage)          // ← ДОБАВИЛИ
             httpEngine = io.ktor.client.engine.okhttp.OkHttp.create {
                 config {
-                    connectTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
-                    readTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
-                    writeTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
+                    connectTimeout(60, java.util.concurrent.TimeUnit.SECONDS)
+                    readTimeout(60, java.util.concurrent.TimeUnit.SECONDS)
+                    writeTimeout(60, java.util.concurrent.TimeUnit.SECONDS)
                 }
             }
         }
